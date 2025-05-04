@@ -11,7 +11,9 @@
     <ul class="space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400 w-full max-w-md">
         @foreach ($series as $serie)
             <li class="flex justify-between">
-                {{ $serie->nome }}
+                <a class="text-blue-300 font-bold hover:text-blue-100" href="{{ route('seasons.index', $serie->id) }}">
+                    {{ $serie->nome }}
+                </a>
 
                 <a href="{{ route('series.edit', $serie->id) }}"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-6">
