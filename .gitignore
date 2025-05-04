@@ -1,0 +1,45 @@
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+/auth.json
+/.fleet
+/.idea
+/.nova
+/.zed
+
+# Dependências gerenciadas pelo Composer
+/vendor
+composer.phar
+
+# Arquivos de cache
+.php-cs-fixer.cache
+/.phpunit.cache
+.phpunit.result.cache
+.phpactor.json
+
+# Arquivos de ambiente
+# .env
+.env.local
+.env.*.local
+.env.backup
+.env.production
+
+# Arquivos de configuração locais
+config/secrets/
+supervisord.*
+
+# Arquivos de cache e logs
+/var
+/var/cache
+/var/log
+logs/
+
+# Docker
+.docker/database/data/*
