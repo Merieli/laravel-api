@@ -9,7 +9,7 @@ use Meri\NameApp\Repositories\SeriesRepository;
 
 class SeriesController extends Controller
 {
-    public function __construct(private SeriesRepository $repository)
+    public function __construct(private SeriesRepository $seriesRepository)
     {
     }
 
@@ -21,6 +21,6 @@ class SeriesController extends Controller
     public function store(SeriesFormRequest $request)
     {
         return response()
-            ->json(Series::create($request->all()), 201);
+            ->json($this->seriesRepository->add($request), 201);
     }
 }

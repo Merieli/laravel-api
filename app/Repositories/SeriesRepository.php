@@ -2,8 +2,8 @@
 
 namespace Meri\NameApp\Repositories;
 
-use App\Http\Requests\SeriesFormRequest;
-use App\Models\Series;
+use Meri\NameApp\Http\Requests\SeriesFormRequest;
+use Meri\NameApp\Models\Series;
 
 interface SeriesRepository
 {
