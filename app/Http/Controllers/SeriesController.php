@@ -3,14 +3,16 @@
 namespace Meri\NameApp\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Meri\NameApp\Http\Requests\SeriesFormRequest;
-use Meri\NameApp\Models\Episode;
-use Meri\NameApp\Models\Season;
 use Meri\NameApp\Models\Series;
+use Meri\NameApp\Repositories\SeriesRepository;
 
 class SeriesController extends Controller
 {
+    // O laravel automaticamente injeta a classe SerieRepository no construtor, ou seja, não é necessário instanciar a classe manualmente, uma facilidade do laravel para injeção de dependência
+    public function __construct(private SeriesRepository $repository) {
+    }
+
     function index(Request $request)
     {
         // Retorna uma collection que é uma lista de objetos, no caso, uma lista de séries
@@ -29,36 +31,9 @@ class SeriesController extends Controller
     }
 
     // A request vai possuir o campo token csrf adicionado automaticamente
-    public function store(SeriesFormRequest $request)
+    public function store(SeriesFormRequest $request,)
     {   
-        // Essa função espera por parametro uma closure, que é uma função anônima, e tudo que estiver dentro dela será executado dentro de uma única transação no banco de dados, garantindo que caso ocorra algum erro, automaticamente gere o rollback, ou seja, desfaz todas as operações realizadas no banco de dados
-        // O `use ($request, &$serie)` é uma forma de passar variáveis para dentro da closure, o `&` indica que a variável será passada por referência, ou seja, qualquer alteração feita na variável dentro da closure será refletida fora dela 
-        $serie = DB::transaction(function () use ($request, &$serie) {
-            // Toda model do Eloquent tem esse método estático create que recebe um array associativo com os campos que serão preenchidos no banco de dados usando o Mass Assignment
-            $serie = Series::create($request->all());
-            $seasons = [];
-            for ($i = 1; $i <= $request->seasonsQtd; $i++) {
-                $seasons[] = [
-                    'number' => $i,
-                    'series_id' => $serie->id,
-                ];
-            }
-            Season::insert($seasons);
-    
-            $episodes = [];
-            foreach ($serie->seasons as $season) {
-                for ($j = 1; $j <= $request->episodesPerSeason; $j++) {
-                    $episodes[] = [
-                        'season_id' => $season->id,
-                        'number' => $i
-                    ];
-                }
-            }
-            Episode::insert($episodes);
-
-            return $serie;
-        }, 5);
-        // Para evitar o dead lock, é passado a quantidade de tentativas que o Laravel vai fazer para executar a transação, nesse caso 5 vezes
+        $serie = $this->repository->add($request);
 
         // Uma rota post sempre precisa redirecionar o usuário para uma rota get
         return to_route('series.index')

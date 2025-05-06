@@ -8,6 +8,9 @@ indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
+[*.blade.php]
+html_pi_attribute_style = first_attribute_on_single_line
+
 [*.md]
 trim_trailing_whitespace = false
 
