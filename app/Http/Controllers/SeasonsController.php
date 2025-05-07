@@ -19,4 +19,13 @@ class SeasonsController extends Controller
                 $series
             );
     }
+
+    public function edit(Series $series)
+    {
+        return view('series.edit')
+            ->with(
+                'series',
+                $series
+            );
+    }
 }

@@ -7,7 +7,7 @@ use Meri\NameApp\Http\Requests\SeriesFormRequest;
 use Meri\NameApp\Models\Series;
 use Meri\NameApp\Repositories\SeriesRepository;
 
-class SeriesController extends Controller
+class SeriesController extends Controller 
 {
     // O laravel automaticamente injeta a classe SerieRepository no construtor, ou seja, não é necessário instanciar a classe manualmente, uma facilidade do laravel para injeção de dependência
     public function __construct(private SeriesRepository $repository) {
