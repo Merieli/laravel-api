@@ -4,12 +4,6 @@
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-6">Adicionar</a>
     @endauth
 
-    @isset($mensagemSucesso)
-    <div class="p-4 mb-4 text-sm text-green-700 rounded-lg bg-green-50 font-medium w-full">
-        {{ $mensagemSucesso }}
-    </div>
-    @endisset
-
     <ul class="space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400 w-full max-w-md">
         @foreach ($series as $serie)
         <li class="flex justify-between">

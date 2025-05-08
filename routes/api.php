@@ -9,3 +9,6 @@ Route::get('/user', function (Request $request) {
 
 // Toda rota definida nesse arquivo tem por padrão o prefixo /api
 Route::apiResource('/series', \Meri\NameApp\Http\Controllers\Api\SeriesController::class);
+Route::get('/series/{series}/seasons', function (\Meri\NameApp\Models\Series $series) {
+    return $series->seasons;
+});

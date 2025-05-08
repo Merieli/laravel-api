@@ -17,7 +17,9 @@ class EloquentSeriesRepository implements SeriesRepository
         // O `use ($request, &$serie)` é uma forma de passar variáveis para dentro da closure, o `&` indica que a variável será passada por referência, ou seja, qualquer alteração feita na variável dentro da closure será refletida fora dela 
         return DB::transaction(function () use ($request) {
             // Toda model do Eloquent tem esse método estático create que recebe um array associativo com os campos que serão preenchidos no banco de dados usando o Mass Assignment
-            $serie = Series::create($request->all());
+            $serie = Series::create([
+                'nome' => $request->nome
+            ]);
             $seasons = [];
             for ($i = 1; $i <= $request->seasonsQtd; $i++) {
                 $seasons[] = [
