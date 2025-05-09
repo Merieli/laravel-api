@@ -31,6 +31,11 @@ class Series extends Model
         return $this->hasMany(Season::class, 'series_id');
     }
 
+    public function episodes()
+    {
+        return $this->hasManyThrough(Episode::class, Season::class);
+    }
+
     // Quando o laravel busca os dados obtém as configurações do escopo global para aplicar a requisição
     protected static function booted()
     {
