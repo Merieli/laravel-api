@@ -2,6 +2,7 @@
 
 namespace Meri\NameApp\Http\Controllers\Api;
 
+use Illuminate\Http\Request;
 use Meri\NameApp\Http\Requests\SeriesFormRequest;
 use Meri\NameApp\Http\Controllers\Controller;
 use Meri\NameApp\Models\Series;
@@ -13,9 +14,14 @@ class SeriesController extends Controller
     {
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return Series::all();
+        if (!$request->has('nome')) {
+            return Series::all();
+        }
+
+        // whereNome(...) é igual a where('nome', ...)
+        return Series::whereNome($request->nome)->get();
     }
 
     public function store(SeriesFormRequest $request)
@@ -29,7 +35,8 @@ class SeriesController extends Controller
         $seriesModel = Series::with('seasons.episodes')->find($series);
         if ($seriesModel === null) {
             return response()->json(['message' => 'Series not found'], 404);
-        };
+        }
+        ;
         return $seriesModel;
     }
 
