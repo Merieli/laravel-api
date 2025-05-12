@@ -3,6 +3,7 @@
 namespace Meri\NameApp\Models;
 
 // O uso de Eloquent é uma das principais características do Laravel, que é um ORM (Object-Relational Mapping) que facilita a interação com o banco de dados. Só com a Model vazia abaixo já é possível fazer operações básicas no banco de dados, como criar, ler, atualizar e excluir registros.
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -16,6 +17,10 @@ class Series extends Model
      * @var array<int, string>
      */
     protected $fillable = ['nome', 'cover'];
+    /**
+     * Os atributos adicionado a `$appends` serão acrescentados ao retorno de cada item
+     */
+    protected $appends = ['links'];
 
     /**
      * Com esse atributo, o Laravel vai carregar automaticamente as temporadas quando eu buscar uma série. Isso é útil para evitar consultas adicionais ao banco de dados quando eu precisar acessar as temporadas de uma série.
@@ -42,6 +47,26 @@ class Series extends Model
         self::addGlobalScope('ordered', function (Builder $queryBuilder) {
             $queryBuilder->orderBy('nome');
         });
+    }
+
+    public function links(): Attribute
+    {
+        return new Attribute(
+            fn() => [
+                [
+                    'rel' => 'self',
+                    'url' => "/api/series/{$this->id}"
+                ],
+                [
+                    'rel' => 'seasons',
+                    'url' => "/api/series/{$this->id}/seasons"
+                ],
+                [
+                    'rel' => 'episodes',
+                    'url' => "/api/series/{$this->id}/episodes"
+                ]
+            ],
+        );
     }
 
     /**
