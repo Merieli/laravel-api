@@ -2,6 +2,7 @@
 
 namespace Meri\NameApp\Http\Controllers\Api;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Request;
 use Meri\NameApp\Http\Requests\SeriesFormRequest;
 use Meri\NameApp\Http\Controllers\Controller;
@@ -46,8 +47,9 @@ class SeriesController extends Controller
         return $series;
     }
 
-    public function destroy(int $series)
+    public function destroy(int $series, Authenticatable $user)
     {
+        dd($user->tokenCan('series:delete'));
         Series::destroy($series);
 
         return response()->noContent();
